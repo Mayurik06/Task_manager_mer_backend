@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
+import validator from "validator";
+
 
 const userSchema=new mongoose.Schema({
-    userName:{
+    name:{
         type:String,
-        required:[true, "UserName required"],
+        required:true
+    },
+    aliasEmail:{
+        type:String,
+        required:[true, "UserName required"],  
         unique:[true, "UserName already exists"],
         minlength: [3, 'Username must be at least 3 characters'],
         maxlength: [50, 'Username must be at most 50 characters']
@@ -19,18 +25,18 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
     },
+    role:{
+        type:String,
+        enum:['admin','user'],
+        default:'user'
+    },
     tasks:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:'Task'
         }
     ],
-    leaves:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Leaves'
-        }
-    ]
+
 })
 
 

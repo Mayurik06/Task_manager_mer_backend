@@ -4,7 +4,8 @@ import dbConnection from './connection/dbConnection.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
+import userRouter from './routes/userRoutes.js';
+import auth from './routes/auth/login.js'
 
 config({path:"./.env"})
 const app=express();
@@ -20,9 +21,11 @@ app.use(cors({
     credentials:true
 }))
 app.options('*',cors());
-
+app.use('/api',userRouter);
+app.use('/api',auth)
 
 dbConnection();
+
 
 try{
     app.listen(process.env.PORT || 4000, () => {
