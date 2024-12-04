@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRoutes.js';
-import auth from './routes/auth/login.js'
+import auth from './routes/auth/auth.js'
 
 config({path:"./.env"})
 const app=express();
@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin:process.env.FRONTEND_URL,
-    methods:['GET','POST','PATCH','DELETE'],
+    methods:['GET','PUT','PATCH','DELETE'],
     credentials:true
 }))
 app.options('*',cors());
