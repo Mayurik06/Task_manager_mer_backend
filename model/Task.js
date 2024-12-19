@@ -20,6 +20,10 @@ const taskSchema = new mongoose.Schema({
     enum: ["High", "Medium", "Low"],
     default: "Low",
   },
+  assignedTo:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User"
+  },
   assignDate: {
     type: Date,
     default: Date.now,

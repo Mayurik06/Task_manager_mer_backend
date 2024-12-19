@@ -22,7 +22,7 @@ export const checkPassword = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role:user.role }, // Payload
+      { id: user._id, name:user.name ,email: user.email, role:user.role }, // Payload
       process.env.JWT_SECRET, // Secret key
       { expiresIn: "1h" } // Token expiration
     );

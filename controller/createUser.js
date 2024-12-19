@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../model/user.js";
+import req from "express/lib/request.js";
+import Task from "../model/Task.js";
 
 export const createUser = async (req, res) => {
 
@@ -56,4 +58,21 @@ try {
   return res.status(500).json({message:"Error fetching users", error:error.message});
   
 }
+}
+
+
+export const deleteUsers=async(req,res)=>{
+  const {id}=req.params;
+
+  try {
+    const user=await User.findById(id);
+    if(!user){
+      return res.status(404).json({message:"User not found"});
+    }
+    await Task.deleteMany({assignedTo:id});
+    await User.findByIdAndDelete(id);
+    return res.status(200).json({message:"User deleted successfully"})
+  } catch (error) {
+      return res.status(500).json({message:"Error deleting users", error:error.message});
+  }
 }
