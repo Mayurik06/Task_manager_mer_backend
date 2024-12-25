@@ -17,12 +17,18 @@ const taskSchema = new mongoose.Schema({
   },
   priority: {
     type: String,
-    enum: ["High", "Medium", "Low"],
-    default: "Low",
+    enum: ["high", "medium", "low"],
+    default: "low",
   },
   assignedTo:{
     type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
+    ref:"User",
+    required:true
+  },
+  assignedBy:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User",
+    required:true
   },
   assignDate: {
     type: Date,

@@ -53,7 +53,7 @@ export const createUser = async (req, res) => {
 export const getUsers=async(req,res)=>{
 try {
   const users=await User.find();
-  return res.status(200).json({message:"Users fetched successfully", users});
+  return res.status(200).json({message:"Users fetched successfully",success:true, users});
 } catch (error) {
   return res.status(500).json({message:"Error fetching users", error:error.message});
   
@@ -75,4 +75,69 @@ export const deleteUsers=async(req,res)=>{
   } catch (error) {
       return res.status(500).json({message:"Error deleting users", error:error.message});
   }
+}
+
+export const getUserById=async(req,res)=>{
+  const {id}=req.params;
+
+try {
+  let user=await User.findOne({_id:id})
+
+  if(!user){
+    return res.status(404).json({message:"User not found"});
+  }
+  return res.status(200).json({message:"User Found successfully",user})
+} catch (error) {
+  return res.status(500).json({message:"User not found", error:error.message});
+}
+}
+
+
+export const updateUser=async(req,res)=>{
+  const { name, aliasEmail, email, role,position } = req.body;
+const {id}=req.params;
+try {
+  if (!name || !aliasEmail || !email || !role || !position) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please fill all details." });
+  }
+  const existingAliasEmail = await User.findOne({
+    aliasEmail,
+    _id: { $ne: id },
+  });
+
+
+  if (existingAliasEmail) {
+    return res
+      .status(400)
+      .json({ message: "AliasEmail already registered." });
+  }
+ 
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      name,
+      aliasEmail,
+      email,
+      position,
+      role: role,
+    },
+    { new: true, runValidators: true } 
+  );
+  if (!updatedUser) {
+    return res
+      .status(404)
+      .json({ success: false, message: "User not found." });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "User updated successfully.",
+    user: updatedUser,
+  });
+
+} catch (error) {
+    return res.status(500).json({message:"Error Updating User", error:error.message});
+}
 }

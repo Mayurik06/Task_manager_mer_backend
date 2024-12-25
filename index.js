@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRoutes.js';
+import taskRouter from './routes/taskRountes.js'
 import auth from './routes/auth/auth.js'
 
 config({path:"./.env"})
@@ -22,6 +23,7 @@ app.use(cors({
 }))
 app.options('*',cors());
 app.use('/api',userRouter);
+app.use('/api',taskRouter);
 app.use('/api',auth)
 
 dbConnection();

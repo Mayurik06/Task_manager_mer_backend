@@ -31,7 +31,7 @@ export const setPassword = async (req, res) => {
     user.password = hashedPassword;
     await user.save();
     const token = jwt.sign(
-      { id: user._id,name:user.name, email: user.email, role:user.role }, // Payload
+      { id: user._id,name:user.name, aliasEmail: user.aliasEmail, role:user.role }, // Payload
       process.env.JWT_SECRET, // Secret key
       { expiresIn: "1h" } // Token expiration
     );
